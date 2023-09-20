@@ -10,6 +10,9 @@ class Coleccion():
         Base.metadata.create_all(engine)
 
     def agregar_album(self, titulo, anio, descripcion, medio):
+        '''
+            este es un comentario
+        '''
         busqueda = session.query(Album).filter(Album.titulo == titulo).all()
         if len(busqueda) == 0:
             album = Album(titulo=titulo, ano=anio, descripcion=descripcion, medio=medio)
@@ -20,9 +23,15 @@ class Coleccion():
             return False
 
     def dar_medios(self):
+        '''
+            este es un comentario
+        '''
         return [medio.name for medio in Medio]
 
     def editar_album(self, album_id, titulo, anio, descripcion, medio):
+        '''
+            este es un comentario
+        '''
         busqueda = session.query(Album).filter(Album.titulo == titulo, Album.id != album_id).all()
         if len(busqueda) == 0:
             album = session.query(Album).filter(Album.id == album_id).first()
@@ -36,6 +45,9 @@ class Coleccion():
             return False
 
     def eliminar_album(self, album_id):
+        '''
+            este es un comentario
+        '''
         try:
             album = session.query(Album).filter(Album.id == album_id).first()
             session.delete(album)
@@ -45,12 +57,18 @@ class Coleccion():
             return False
 
     def dar_albumes(self):
+        '''
+            este es un comentario
+        '''
         albumes = [elem.__dict__ for elem in session.query(Album).all()]
         for album in albumes:
             album["interpretes"] = self.dar_interpretes_de_album(album["id"])
         return albumes
 
     def dar_interpretes_de_album(self, album_id):
+        '''
+            este es un comentario
+        '''
         canciones = session.query(Cancion).filter(Cancion.albumes.any(Album.id.in_([album_id]))).all()
         interpretes = []
         for cancion in canciones:
@@ -59,14 +77,23 @@ class Coleccion():
         return interpretes
 
     def dar_album_por_id(self, album_id):
+        '''
+            este es un comentario
+        '''
         return session.query(Album).get(album_id).__dict__
 
     def buscar_albumes_por_titulo(self, album_titulo):
+        '''
+            este es un comentario
+        '''
         albumes = [elem.__dict__ for elem in
                    session.query(Album).filter(Album.titulo.ilike('%{0}%'.format(album_titulo))).all()]
         return albumes
 
     def agregar_cancion(self, titulo, minutos, segundos, compositor, album_id, interpretes):
+        '''
+            este es un comentario
+        '''
         interpretesCancion = []
         if len(interpretes) == 0:
             return False
