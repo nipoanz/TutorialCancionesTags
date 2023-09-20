@@ -1,0 +1,71 @@
+name: hello
+
+# Controls when the action will run. 
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  Mi-primer-job:
+    name: Mi primer job
+    runs-on: ubuntu-latest
+    outputs:
+      salida: ${{ steps.imprimir4.outputs.respuesta }}
+    steps:
+    - name: Imprimir1 
+      id: imprimir1
+      env:
+        MI_VARIABLE: Hola mundo 1
+      run: |
+        echo $MI_VARIABLE.
+        sleep 10  
+    - name: Imprimir2 
+      id: imprimir2
+      env:
+        MI_VARIABLE: Hola mundo 2
+      run: |
+        echo $MI_VARIABLE.
+        sleep 10  
+    - name: Imprimir3 
+      id: imprimir3
+      env:
+        MI_VARIABLE: Hola mundo 3
+      run: |
+        echo $MI_VARIABLE.
+        sleep 10  
+    - name: Imprimir4 
+      id: imprimir4
+      env:
+        MI_VARIABLE: Hola mundo 4
+      run: |
+        echo $MI_VARIABLE.
+        sleep 10
+        echo "::set-output name=respuesta::${MI_VARIABLE}"  
+  Mi-segundo-job:
+    needs: Mi-primer-job
+    name: Mi segundo job
+    runs-on: ubuntu-latest
+    steps:
+    - name: Imprimir
+      id: imprimir
+      run: echo ${{needs.Mi-primer-job.outputs.salida}}
+  # job1:
+  #   name: Pruebas
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - name: Checkout de repositorio
+  #     uses: actions/checkout@v2
+  #   - name: Configuración de entorno de python
+  #     uses: actions/setup-python@v2
+  #     with:
+  #         python-version: '3.7'
+  #   - name: Instalación de librerías y dependencias
+  #     run: |
+  #       python -m pip install --upgrade pip
+  #       pip install -r requirements.txt
+  #   - name: Correr pruebas
+  #     id: correr-pruebas
+  #     run: python -m unittest discover -s tests
