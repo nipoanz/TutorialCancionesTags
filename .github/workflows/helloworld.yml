@@ -11,7 +11,10 @@ on:
 jobs:
   Mi-primer-job:
     name: Mi primer job
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-latest, windows-latest, ubuntu-18.04]
     outputs:
       salida: ${{ steps.imprimir4.outputs.respuesta }}
     steps:
